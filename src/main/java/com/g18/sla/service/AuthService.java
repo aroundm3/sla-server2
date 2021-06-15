@@ -11,11 +11,11 @@ import com.g18.sla.repository.AccountRepository;
 import com.g18.sla.repository.UserRepository;
 import com.g18.sla.repository.VerificationTokenRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -76,5 +76,19 @@ public class AuthService {
         return token;
     }
 
+    @Transactional
+    public void fetchUserAndEnable(VerificationToken verificationToken) {
+        String username = verificationToken.getAccount().getUsername();
+        Account account = accountRepository.findByUsername(username).orElseThrow(() -> new AccountException("Account not found with name - " + username));
+        account.setActive(true);
+        accountRepository.save(account);
+    }
+
+    public void verifyAccount(String token) {
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+        verificationToken.orElseThrow(() -> new SLAException("Invalid Token"));
+
+        fetchUserAndEnable(verificationToken.orElseThrow(() -> new SLAException("Invalid Token")));
+    }
 
 }
