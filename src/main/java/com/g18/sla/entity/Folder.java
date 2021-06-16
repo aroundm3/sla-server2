@@ -1,75 +1,33 @@
 package com.g18.sla.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
-import com.g18.sla.model.INode;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Folder {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-public class Folder implements INode{
-	private Node nodeId;
-	private User adminId;
+	@ManyToOne
+	@JoinColumn(name = "creator_id")
+	private User owner;
+
 	private String title;
 	private String description;
 	private Date createdDate;
 	private Date updateDate;
+
+	@OneToMany(mappedBy = "studySet")
+	private List<FolderStudySet> folderStudySets; //list study sets in folder
 	
-	
-	public Folder() {}
 
-	public Node getNodeId() {
-		return nodeId;
-	}
-
-	public void setNodeId(Node nodeId) {
-		this.nodeId = nodeId;
-	}
-
-	public User getAdminId() {
-		return adminId;
-	}
-
-
-	public void setAdminId(User adminId) {
-		this.adminId = adminId;
-	}
-
-
-	public String getTitle() {
-		return title;
-	}
-
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-	
 }

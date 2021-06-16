@@ -1,66 +1,31 @@
 package com.g18.sla.entity;
 
-import com.g18.sla.model.INode;
+import lombok.*;
 
-public class StudySet implements INode{
-	private String studySetId;
-	private User userId;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class StudySet {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "creator_id")
+	private User creator;
+
+	@NotBlank(message = "Title is required")
 	private String title;
 	private String description;
 	private String tag;
 	private boolean isPublic;
-	
-	
-	public StudySet() {}
 
-	public String getStudySetId() {
-		return studySetId;
-	}
+//	@OneToMany(mappedBy = "studySet", cascade = CascadeType.ALL)
+//	private List<Card> cards;
 
-	public void setStudySetId(String studySetId) {
-		this.studySetId = studySetId;
-	}
-
-	public User getUserId() {
-		return userId;
-	}
-
-	public void setUserId(User userId) {
-		this.userId = userId;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getTag() {
-		return tag;
-	}
-
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
-
-	public boolean isPublic() {
-		return isPublic;
-	}
-
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-	}
-
-	
-	
 }

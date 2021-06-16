@@ -1,91 +1,35 @@
 package com.g18.sla.entity;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.time.Instant;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Event {
-	private String eventId;
-	private User userId;
-	private String name;
-	private String description;
-	private Date from;
-	private Date to;
-	private String color;
-	private Date createdDate;
-	private Date updateDate;
 
-	public Event() {}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public String getEventId() {
-		return eventId;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	public void setEventId(String eventId) {
-		this.eventId = eventId;
-	}
+    @NotBlank(message = "Name is required")
+    private String name;
 
-	public User getUserId() {
-		return userId;
-	}
+    private String description;
 
-	public void setUserId(User userId) {
-		this.userId = userId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Date getFrom() {
-		return from;
-	}
-
-	public void setFrom(Date from) {
-		this.from = from;
-	}
-
-	public Date getTo() {
-		return to;
-	}
-
-	public void setTo(Date to) {
-		this.to = to;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-		
-	
+    private Instant fromTime;
+    private Instant toTime;
+    private String color;
+    private Instant createdTime;
+    private Instant updateTime;
 }

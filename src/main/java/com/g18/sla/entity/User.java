@@ -1,103 +1,61 @@
 package com.g18.sla.entity;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class User {
-	private String userId;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
 	private String firstName;
 	private String lastName;
+
 	private Date dateOfBirth;
 	private Boolean gender;
 	private String schoolName;
 	private String job;
 	private String phone;
-	private String mail;
-	private String adress;
+	private String avatar;
 
-	public User() {
-	}
+	private Instant favourTimeFrom;
+	private Instant favourTimeTo;
 
-	public String getUserId() {
-		return userId;
-	}
+	@Email
+	@NotEmpty(message = "Email is required")
+	private String email;
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+	private String address;
 
-	public String getLastName() {
-		return lastName;
-	}
+	@OneToMany(mappedBy = "creator")
+	private List<StudySet>  studySetsOwn; //list study sets created
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+	@OneToMany(mappedBy = "owner")
+	private List<Class>  ClassesOwn; //list classes created
 
-	public String getFirstName() {
-		return firstName;
-	}
+	@OneToMany(mappedBy = "owner")
+	private List<Folder>  FoldersOwn; //list folders created
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+	@OneToMany(mappedBy = "aClass")
+	private List<ClassMember>  ClassesJoin; //list classes joined
 
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
+	@OneToMany(mappedBy = "studySet")
+	private List<StudySetLearning>  studySetsLearning; //list study sets learning
 
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
+//	@OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
+//	private List<CardLearning>  cardsLearning;
 
-	public Boolean getGender() {
-		return gender;
-	}
-
-	public void setGender(Boolean gender) {
-		this.gender = gender;
-	}
-
-	public String getSchoolName() {
-		return schoolName;
-	}
-
-	public void setSchoolName(String schoolName) {
-		this.schoolName = schoolName;
-	}
-
-	public String getJob() {
-		return job;
-	}
-
-	public void setJob(String job) {
-		this.job = job;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	public String getAdress() {
-		return adress;
-	}
-
-	public void setAdress(String adress) {
-		this.adress = adress;
-	}
-
-	
-	
-	
 }
