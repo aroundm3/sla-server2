@@ -15,10 +15,10 @@ import java.time.Instant;
 public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long accountId;
 
-	@OneToOne
-	@JoinColumn(name = "user_id")
+	@OneToOne(optional = false)
+	@JoinColumn(name = "userId", referencedColumnName = "userId")
 	private User user;
 
 	@NotBlank(message = "Username is required")
